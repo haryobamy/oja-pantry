@@ -1,0 +1,137 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id Int @default(autoincrement()) @id
+  email String @unique
+  name String
+  email_verified_at DateTime 
+  email_verified Boolean @default(false)
+  create_at DateTime @default(now())
+  update_at DateTime @updatedAt
+}
+
+
+enum ProductType {
+  SIMPLE
+  VARIABLE
+}
+
+enum ProductStatus {
+  PUBLISH 
+  DRAFT 
+}
+
+  // categories: Category[];
+  // tags?: Tag[];
+  // variations?: AttributeValue[];
+  // variation_options?: Variation[];
+  // pivot?: OrderProductPivot;
+  // orders?: Order[];
+  // shop: Shop;
+    // type: Type;
+    //  related_products?: Product[];
+//  gallery?: Attachment[];
+model Product {
+  id Int @default(autoincrement()) @id
+  name String
+  slug String
+  shop_id  Int 
+  type_id  Int
+  product_type ProductType
+
+
+
+  description String @db.Text
+  in_stock Boolean
+  is_taxable Boolean
+  sale_price Int?
+  max_price Int?
+  min_price Int?
+  sku String?
+
+  // image?: Attachment;
+  status  ProductStatus
+  height String?
+  length String?
+  width String?
+  price String?
+  quantity Int
+  unit String
+  ratings Int
+  in_wishlist Boolean 
+  // my_review?: Review[];
+  language String?
+  // translated_languages String[]?
+}
+
+// model User {
+//   id       Int      @id @default(autoincrement())
+//   email    String   @unique
+//   profile  Profile?
+//   wallet   Wallet?
+//   shops    Shop[]   @relation("UserShops")
+// }
+
+// model Profile {
+//   id       Int      @id @default(autoincrement())
+//   avatarId Int      @unique
+//   avatar   Avatar   @relation(fields: [avatarId], references: [id], map: "Profile_avatar_avatarId_fkey")
+//   bio      String?
+//   user     User     @relation(fields: [userId], references: [id])
+//   userId   Int      @unique
+// }
+
+// model Avatar {
+//   id      Int      @id @default(autoincrement())
+//   profile Profile?
+// }
+
+// model Wallet {
+//   id     Int    @id @default(autoincrement())
+//   userId Int    @unique
+//   user   User   @relation(fields: [userId], references: [id], map: "Wallet_user_userId_fkey")
+//   balance Float @default(0.0)
+// }
+
+// model Shop {
+//   id           Int           @id @default(autoincrement())
+//   name         String
+//   ownerId      Int
+//   user         User          @relation("UserShops", fields: [ownerId], references: [id], map: "Shop_user_ownerId_fkey")
+//   addressId    Int           @unique
+//   address      AddressDetail @relation(fields: [addressId], references: [id], map: "Shop_address_addressId_fkey")
+//   balance      Balance?      @relation
+//   settings     ShopSettings?
+//   notifications String?
+// }
+
+// model AddressDetail {
+//   id    Int   @id @default(autoincrement())
+//   shop  Shop?
+//   city  String
+//   state String
+//   zip   String
+// }
+
+// model Balance {
+//   id      Int   @id @default(autoincrement())
+//   shopId  Int   @unique
+//   shop    Shop  @relation(fields: [shopId], references: [id], map: "Balance_shop_shopId_fkey")
+//   amount  Float @default(0.0)
+//   updatedAt DateTime @updatedAt @db.Timestamp
+// }
+
+// model ShopSettings {
+//   id         Int   @id @default(autoincrement())
+//   shopId     Int   @unique
+//   shop       Shop  @relation(fields: [shopId], references: [id], map: "ShopSettings_shop_shopId_fkey")
+//   settingKey String
+//   settingValue String
+// }
